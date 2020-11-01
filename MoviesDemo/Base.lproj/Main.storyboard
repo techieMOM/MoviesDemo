@@ -63,9 +63,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Por-ei-JTC" firstAttribute="trailing" secondItem="gzb-DQ-RV2" secondAttribute="trailing" id="2Fe-BG-SjL"/>
-                                                <constraint firstItem="Por-ei-JTC" firstAttribute="centerX" secondItem="gzb-DQ-RV2" secondAttribute="centerX" id="55a-hC-s6I"/>
                                                 <constraint firstItem="gzb-DQ-RV2" firstAttribute="width" secondItem="bul-P6-ri7" secondAttribute="width" id="5lD-nD-E77"/>
-                                                <constraint firstItem="z6v-Ma-K0H" firstAttribute="centerX" secondItem="Por-ei-JTC" secondAttribute="centerX" id="9Yw-xO-0XD"/>
                                                 <constraint firstItem="Por-ei-JTC" firstAttribute="leading" secondItem="gzb-DQ-RV2" secondAttribute="leading" id="FWN-6n-kTo"/>
                                                 <constraint firstItem="z6v-Ma-K0H" firstAttribute="top" secondItem="Por-ei-JTC" secondAttribute="bottom" constant="3" id="fuK-Qj-aKb"/>
                                                 <constraint firstItem="gzb-DQ-RV2" firstAttribute="top" secondItem="bul-P6-ri7" secondAttribute="top" constant="10" id="g5e-Xc-ErY"/>

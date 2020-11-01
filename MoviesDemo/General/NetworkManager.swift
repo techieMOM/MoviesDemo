@@ -44,6 +44,8 @@ class NetworkManager {
             })
         }
     }
+    
+    // Search Movie
     class func searchMovies(_ text : String,completion:@escaping ([Movie])->Void) {
         if let movieURL = URL(string: String(format: API.searchMovieURL, API.API_TOKEN,text)) {
             print(movieURL)

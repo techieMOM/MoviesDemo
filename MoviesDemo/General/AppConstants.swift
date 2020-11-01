@@ -22,10 +22,3 @@ var isiPad : Bool {
         return false
     }
 }
-var isSmallerDevice : Bool {
-    if UIScreen.main.nativeBounds.height > 1334 {
-        return false
-    } else {
-        return true
-    }
-}

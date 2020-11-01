@@ -38,6 +38,7 @@ class MoviesViewController: BaseVC {
         self.moviesCollection.reloadData()
     }
 }
+
 extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.movieViewModel.filteredMovies.count
