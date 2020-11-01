@@ -7,10 +7,10 @@
 
 import Foundation
 
-@objcMembers class Movies : Decodable {
-    dynamic var page  : Int = 1
-    dynamic var total_pages  : Int = 1
-    dynamic var movies = [Movie]()
+ class Movies : Decodable {
+    var page  : Int = 1
+    var total_pages  : Int = 1
+    var movies = [Movie]()
     private enum CodingKeys: String, CodingKey {
         case page
         case total_pages

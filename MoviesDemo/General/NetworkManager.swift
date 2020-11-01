@@ -6,3 +6,42 @@
 //
 
 import Foundation
+import Alamofire
+
+class NetworkManager {
+    // Fetch Movies Data
+    class func fetchMovies(_ page : Int,completion:@escaping (Movie?)->Void) {
+        if let movieURL = URL(string: String(format: API.moviesURL, API.API_TOKEN,page)) {
+            AF.request(movieURL).responseJSON(completionHandler: { (response) in
+                if let jsonData = response.data {
+                    do{
+                        let decoder = JSONDecoder()
+                        let movie = try decoder.decode(Movie.self, from: jsonData)
+                        completion(movie)
+                    }catch let err{
+                        completion(nil)
+                        print(err)
+                    }
+                }
+            })
+        }
+    }
+    
+    // Fetch Genres Data
+    class func fetchGenres(completion:@escaping ([Genres])->Void) {
+        if let genreURL = URL(string: String(format: API.genreURL, API.API_TOKEN)) {
+            AF.request(genreURL).responseJSON(completionHandler: { (response) in
+                if let jsonData = response.data {
+                    do{
+                        let decoder = JSONDecoder()
+                        let genre = try decoder.decode(Genres.self, from: jsonData)
+                        completion(genre.genreData)
+                    }catch let err{
+                        completion([])
+                        print(err)
+                    }
+                }
+            })
+        }
+    }
+}

@@ -8,14 +8,14 @@
 import Foundation
 
 class Genres : Decodable {
-    let genreData = [Genres]()
+    var genreData = [Genres]()
     private enum CodingKeys: String, CodingKey {
         case genreData = "genres"
     }
 }
-@objcMembers class Genre : Decodable {
-    dynamic var id  : Int = 0
-    dynamic var name  : String?
+ class Genre : Decodable {
+     var id  : Int = 0
+     var name  : String?
     private enum CodingKeys: String, CodingKey {
         case id
         case name

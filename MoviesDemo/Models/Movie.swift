@@ -7,14 +7,14 @@
 
 import Foundation
 
-@objcMembers class Movie : Decodable {
-    dynamic var poster  : String?
-    dynamic var name  : String?
-    dynamic var genre  = [Int]()
-    dynamic var overview  : String?
-    dynamic var release_date  : String?
-    dynamic var rating  : Double?
-    dynamic var backdrop  : String?
+class Movie : Decodable {
+    var poster  : String?
+    var name  : String?
+    var genre  = [Int]()
+    var overview  : String?
+    var release_date  : String?
+    var rating  : Double?
+    var backdrop  : String?
     
     
     private enum CodingKeys: String, CodingKey {
