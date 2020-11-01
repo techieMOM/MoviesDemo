@@ -10,13 +10,14 @@ import Alamofire
 
 class NetworkManager {
     // Fetch Movies Data
-    class func fetchMovies(_ page : Int,completion:@escaping (Movie?)->Void) {
+    class func fetchMovies(_ page : Int,completion:@escaping (Movies?)->Void) {
         if let movieURL = URL(string: String(format: API.moviesURL, API.API_TOKEN,page)) {
+            print(movieURL)
             AF.request(movieURL).responseJSON(completionHandler: { (response) in
                 if let jsonData = response.data {
                     do{
                         let decoder = JSONDecoder()
-                        let movie = try decoder.decode(Movie.self, from: jsonData)
+                        let movie = try decoder.decode(Movies.self, from: jsonData)
                         completion(movie)
                     }catch let err{
                         completion(nil)
@@ -28,8 +29,9 @@ class NetworkManager {
     }
     
     // Fetch Genres Data
-    class func fetchGenres(completion:@escaping ([Genres])->Void) {
+    class func fetchGenres(completion:@escaping ([Genre])->Void) {
         if let genreURL = URL(string: String(format: API.genreURL, API.API_TOKEN)) {
+            print(genreURL)
             AF.request(genreURL).responseJSON(completionHandler: { (response) in
                 if let jsonData = response.data {
                     do{

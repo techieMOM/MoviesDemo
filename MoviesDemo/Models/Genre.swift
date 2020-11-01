@@ -8,7 +8,7 @@
 import Foundation
 
 class Genres : Decodable {
-    var genreData = [Genres]()
+    var genreData = [Genre]()
     private enum CodingKeys: String, CodingKey {
         case genreData = "genres"
     }
