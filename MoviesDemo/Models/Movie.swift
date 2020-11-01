@@ -15,7 +15,7 @@ class Movie : Decodable {
     var release_date  : String?
     var rating  : Double?
     var backdrop  : String?
-    
+    var genres : String?
     
     private enum CodingKeys: String, CodingKey {
         case poster = "poster_path"

@@ -19,14 +19,12 @@ class MovieViewModel: NSObject {
         DispatchQueue.main.async {
             NetworkManager.fetchGenres { (genre) in
                 self.genres = genre
-                print(genre)
                 dispatchGroup.leave()
             }
         }
         dispatchGroup.enter()
         DispatchQueue.main.async {
             NetworkManager.fetchMovies(1, completion: { (movie) in
-                print(movie)
                 if let data = movie {
                     self.movies = data.movies
                     self.currentPage = data.page
@@ -36,8 +34,6 @@ class MovieViewModel: NSObject {
             })
         }
         dispatchGroup.notify(queue: .main) {
-            print(self.movies)
-            print(self.genres)
             completion(true)
         }
     }

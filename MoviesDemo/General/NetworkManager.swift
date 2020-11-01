@@ -12,7 +12,6 @@ class NetworkManager {
     // Fetch Movies Data
     class func fetchMovies(_ page : Int,completion:@escaping (Movies?)->Void) {
         if let movieURL = URL(string: String(format: API.moviesURL, API.API_TOKEN,page)) {
-            print(movieURL)
             AF.request(movieURL).responseJSON(completionHandler: { (response) in
                 if let jsonData = response.data {
                     do{
@@ -31,7 +30,6 @@ class NetworkManager {
     // Fetch Genres Data
     class func fetchGenres(completion:@escaping ([Genre])->Void) {
         if let genreURL = URL(string: String(format: API.genreURL, API.API_TOKEN)) {
-            print(genreURL)
             AF.request(genreURL).responseJSON(completionHandler: { (response) in
                 if let jsonData = response.data {
                     do{

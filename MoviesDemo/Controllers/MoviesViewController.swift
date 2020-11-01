@@ -29,7 +29,6 @@ class MoviesViewController: BaseVC {
     func loadCollection() {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top:0,left:0,bottom:0,right:0)
-//        layout.estimatedItemSize = CGSize(width: moviesCollection.frame.size.width, height: 1)
         layout.minimumInteritemSpacing = 5
         self.moviesCollection.collectionViewLayout = layout
         self.moviesCollection.backgroundColor = .clear
@@ -38,7 +37,6 @@ class MoviesViewController: BaseVC {
         self.view.addSubview(self.moviesCollection)
         self.moviesCollection.reloadData()
     }
-
 }
 extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -49,7 +47,7 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let collectionViewSize = moviesCollection.frame.size.width - padding
         let numberOfRows : CGFloat = isiPad ? 3 : 2
         let width = collectionViewSize/numberOfRows
-        return CGSize(width: width, height: isSmallerDevice ? (width + 150) : (width + 120))
+        return CGSize(width: width, height: (width + 100))
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as? MovieCollectionViewCell else {
@@ -58,18 +56,40 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let movieData = self.movieViewModel.movies[indexPath.item]
         cell.movieTitle.text = movieData.name ?? ""
         cell.movieGenres.text = self.movieViewModel.fetchGenre(movieData.genre)
+        cell.roundCorners()
         if let imageURL = URL(string: movieData.poster ?? "") {
-        Nuke.loadImage(
-            with: imageURL,
-            options: ImageLoadingOptions(
-                transition: .fadeIn(duration: 0.33),
-                contentModes: .init(success: .scaleToFill, failure: .scaleAspectFill, placeholder: .scaleAspectFill)
-            ),
-            into: cell.poster
-        )}
+            Nuke.loadImage(
+                with: imageURL,
+                options: ImageLoadingOptions(
+                    transition: .fadeIn(duration: 0.33),
+                    contentModes: .init(success: .scaleToFill, failure: .scaleAspectFill, placeholder: .scaleAspectFill)
+                ),
+                into: cell.poster
+            )}
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "segueDetails", sender: indexPath.row)
+    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == self.movieViewModel.movies.count - 1 && self.movieViewModel.currentPage < self.movieViewModel.totalPages {
+            self.loadOffsetData(self.movieViewModel.currentPage + 1)
+        }
+    }
     
-    
-    
+    func loadOffsetData(_ page : Int) {
+        self.showOverlay()
+        self.movieViewModel.fetchMoviesOffset(page) { items in
+            self.movieViewModel.movies.append(contentsOf: items)
+            self.moviesCollection.reloadData()
+            self.hideOverLay()
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? MovieDetailsViewController {
+            let movie = self.movieViewModel.movies[sender as! Int]
+            movie.genres = self.movieViewModel.fetchGenre(movie.genre)
+            vc.movieViewModel.movie = movie
+        }
+    }
 }
