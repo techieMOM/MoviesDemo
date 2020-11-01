@@ -61,6 +61,7 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
             Nuke.loadImage(
                 with: imageURL,
                 options: ImageLoadingOptions(
+                    placeholder: #imageLiteral(resourceName: "placeHolder"),
                     transition: .fadeIn(duration: 0.33),
                     contentModes: .init(success: .scaleToFill, failure: .scaleAspectFill, placeholder: .scaleAspectFill)
                 ),

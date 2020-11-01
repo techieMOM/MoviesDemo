@@ -26,14 +26,35 @@ class MovieDetailsViewController: BaseVC {
         let movie = self.movieViewModel.movie
         self.name.text = movie?.name ?? ""
         self.overview.text = movie?.overview ?? ""
-        self.rating.text = "Movie Rating : \(movie?.rating ?? 0.0)"
-        self.genres.text = "Genres : \(movie?.genres ?? "")"
-        self.releasedate.text = "Release Date : \(movie?.release_date ?? "")"
+        if let rating = movie?.rating {
+            if rating != 0.0 {
+                self.rating.isHidden = false
+                self.rating.text = "Movie Rating : \(rating)"
+            }else {
+                self.rating.isHidden = true
+            }
+        }
+        if let genres = movie?.genres {
+            if genres.isEmpty {
+                self.genres.isHidden = true
+            }else {
+                self.genres.isHidden = false
+                self.genres.text = "Genres : \(genres)"
+            }
+        }
+        if let releaseDate = movie?.release_date {
+            if releaseDate.isEmpty {
+                self.releasedate.isHidden = true
+            }else {
+                self.releasedate.text = "Release Date : \(releaseDate)"
+            }
+        }
 
         if let imageURL = URL(string: movie?.poster ?? "") {
             Nuke.loadImage(
                 with: imageURL,
                 options: ImageLoadingOptions(
+                    placeholder: #imageLiteral(resourceName: "placeHolder"),
                     transition: .fadeIn(duration: 0.33),
                     contentModes: .init(success: .scaleToFill, failure: .scaleAspectFill, placeholder: .scaleAspectFill)
                 ),
