@@ -40,7 +40,7 @@ class MoviesViewController: BaseVC {
 }
 extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.movieViewModel.movies.count
+        return self.movieViewModel.filteredMovies.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding: CGFloat = isiPad ? 30 : 10
@@ -53,7 +53,7 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as? MovieCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let movieData = self.movieViewModel.movies[indexPath.item]
+        let movieData = self.movieViewModel.filteredMovies[indexPath.item]
         cell.movieTitle.text = movieData.name ?? ""
         cell.movieGenres.text = self.movieViewModel.fetchGenre(movieData.genre)
         cell.roundCorners()
@@ -72,7 +72,7 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.performSegue(withIdentifier: "segueDetails", sender: indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == self.movieViewModel.movies.count - 1 && self.movieViewModel.currentPage < self.movieViewModel.totalPages {
+        if indexPath.item == self.movieViewModel.filteredMovies.count - 1 && self.movieViewModel.currentPage < self.movieViewModel.totalPages {
             self.loadOffsetData(self.movieViewModel.currentPage + 1)
         }
     }
@@ -81,15 +81,33 @@ extension MoviesViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.showOverlay()
         self.movieViewModel.fetchMoviesOffset(page) { items in
             self.movieViewModel.movies.append(contentsOf: items)
+            self.movieViewModel.filteredMovies.append(contentsOf: items)
             self.moviesCollection.reloadData()
             self.hideOverLay()
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MovieDetailsViewController {
-            let movie = self.movieViewModel.movies[sender as! Int]
+            let movie = self.movieViewModel.filteredMovies[sender as! Int]
             movie.genres = self.movieViewModel.fetchGenre(movie.genre)
             vc.movieViewModel.movie = movie
         }
     }
+}
+
+extension MoviesViewController : UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.showOverlay()
+        self.movieViewModel.searchMovie(searchBar.text ?? "") { movies in
+            self.movieViewModel.filteredMovies = movies
+            self.moviesCollection.reloadData()
+            self.hideOverLay()
+        }
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        self.movieViewModel.filteredMovies = self.movieViewModel.movies
+        self.moviesCollection.reloadData()
+    }
+    
 }

@@ -26,7 +26,6 @@ class MovieDetailsViewController: BaseVC {
         let movie = self.movieViewModel.movie
         self.name.text = movie?.name ?? ""
         self.overview.text = movie?.overview ?? ""
-        print("Movie Rating : \(movie?.rating ?? 0.0)")
         self.rating.text = "Movie Rating : \(movie?.rating ?? 0.0)"
         self.genres.text = "Genres : \(movie?.genres ?? "")"
         self.releasedate.text = "Release Date : \(movie?.release_date ?? "")"

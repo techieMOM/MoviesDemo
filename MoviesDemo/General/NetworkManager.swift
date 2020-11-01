@@ -44,4 +44,21 @@ class NetworkManager {
             })
         }
     }
+    class func searchMovies(_ text : String,completion:@escaping ([Movie])->Void) {
+        if let movieURL = URL(string: String(format: API.searchMovieURL, API.API_TOKEN,text)) {
+            print(movieURL)
+            AF.request(movieURL).responseJSON(completionHandler: { (response) in
+                if let jsonData = response.data {
+                    do{
+                        let decoder = JSONDecoder()
+                        let movie = try decoder.decode(Movies.self, from: jsonData)
+                        completion(movie.movies)
+                    }catch let err{
+                        completion([])
+                        print(err)
+                    }
+                }
+            })
+        }
+    }
 }

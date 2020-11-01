@@ -12,6 +12,7 @@ class MovieViewModel: NSObject {
     var movies = [Movie]()
     var currentPage = 0
     var totalPages = 0
+    var filteredMovies = [Movie]()
     
     func fetchMovies( completion : @escaping ((Bool) -> (Void))) {
         let dispatchGroup = DispatchGroup()
@@ -26,6 +27,7 @@ class MovieViewModel: NSObject {
         DispatchQueue.main.async {
             NetworkManager.fetchMovies(1, completion: { (movie) in
                 if let data = movie {
+                    self.filteredMovies = data.movies
                     self.movies = data.movies
                     self.currentPage = data.page
                     self.totalPages = data.total_pages
@@ -51,6 +53,11 @@ class MovieViewModel: NSObject {
                 completion(data.movies)
             }
         })}
+    func searchMovie(_ searchText : String, completion : @escaping (([Movie]) -> (Void))) {
+        NetworkManager.searchMovies(searchText) { (items) in
+            completion(items)
+        }
+}
 }
 
 

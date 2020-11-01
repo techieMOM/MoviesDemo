@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" barStyle="black" placeholder="Search Movie" translatesAutoresizingMaskIntoConstraints="NO" id="gTa-0R-PxR">
+                            <searchBar contentMode="redraw" barStyle="black" placeholder="Search Movie" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTa-0R-PxR">
                                 <rect key="frame" x="0.0" y="44" width="414" height="56"/>
                                 <color key="backgroundColor" systemColor="labelColor"/>
                                 <textInputTraits key="textInputTraits"/>
